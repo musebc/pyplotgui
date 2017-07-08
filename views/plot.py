@@ -1,3 +1,4 @@
+"""Plot helper class that builds the subplots."""
 
 from PyQt5.QtWidgets import QSizePolicy
 
@@ -19,14 +20,32 @@ class Plot(FigureCanvas):
                 QSizePolicy.Expanding,
                 QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
-        self.plot()
+        self.line_list = []
+        self.plot_index = 0
+        self.plots = {}
  
  
-    def plot(self):
+    def plot(self, line_box, title="Unnamed Plot"):
         data = [random.random() for i in range(25)]
         ax = self.figure.add_subplot(111)
-        ax.clear()
-        ax.plot(data, 'r-')
-        ax.set_title('PyQt Matplotlib Example')
+        current_plot, = ax.plot(data, 'r-')
+        self.line_list.append(current_plot)
+        title = "Unnamed Plot"
+        ax.set_title(title)
+        line_box.addItem(title)
+        self.plots[title] = self.plot_index
+        self.plot_index += 1
         self.draw()
 
+
+    def color_change(self, line_box):
+        index = line_box.currentIndex()
+        line = self.line_list[index]
+        line.set_color('b')
+        self.draw()
+
+    def line_style_change(self, line_box):
+        index = line_box.currentIndex()
+        line = self.line_list[index]
+        line.set_linestyle('--')
+        self.draw()
