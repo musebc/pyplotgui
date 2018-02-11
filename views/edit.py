@@ -58,7 +58,7 @@ class PlotEdit(QWidget):
     def check_for_plots(self):
         open_plots = Plot.get_plot_instances()
         for plot in open_plots:
-        
+            self.line_box.addItem(plot)
 
     def get_line_box(self):
         """Returns the combo box for referencing the currently selected line."""

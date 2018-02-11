@@ -15,14 +15,13 @@ class Plot(FigureCanvas):
     plot_instances =[]
 
     def __init__(self, figure=None, parent=None, width=5, height=4, dpi=100):
-        if figure:
-            fig = figure
-            self.axes = fig.axes
+        if not figure:
+            figure = Figure(figsize=(width, height), dpi=dpi)
+            self.axes = figure.add_subplot(111)
         else:
-            fig = Figure(figsize=(width, height), dpi=dpi)
-            self.axes = fig.add_subplot(111)
+            self.axes = figure.axes
 
-        FigureCanvas.__init__(self, fig)
+        FigureCanvas.__init__(self, figure)
         self.setParent(parent)
 
         FigureCanvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
